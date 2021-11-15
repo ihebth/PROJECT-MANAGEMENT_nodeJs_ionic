@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/boards"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ board?.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-fab vertical="top" horizontal="end" slot="fixed">
+  <ion-fab-button (click)="createTask()">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+<ion-content padding>
+
+
+  <ion-row>
+    <ion-col size="12">
+      <ion-card *ngIf="board">
+        <ion-card-content>
+          <ion-item>
+            <ion-label position="stacked">Name</ion-label>
+            <ion-input [(ngModel)]="board.name"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Description</ion-label>
+            <ion-textarea [(ngModel)]="board.desc"></ion-textarea>
+          </ion-item>
+
+          <ion-list>
+            <ion-list-header>
+              <ion-label>Members</ion-label>
+            </ion-list-header>
+            <ion-item>{{ board.creator.first_name }} {{ board.creator.last_name }} ({{ board.creator.email }})</ion-item>
+            <ion-item *ngFor="let usr of board.users">{{ usr.first_name }} {{ usr.last_name }} ({{ usr.email }})</ion-item>
+          </ion-list>
+
+          <ion-button expand="block" fill="outline" (click)="inviteMember()">
+            Invite Member
+          </ion-button>
+
+          <ion-item>
+            <ion-label position="stacked">Creator</ion-label>
+            <ion-input disabled value="{{ board.creator?.first_name }} {{ board.creator?.last_name }}"></ion-input>
+          </ion-item>
+
+          <ion-button expand="block" (click)="updateBoard()">
+            Update Board
+          </ion-button>
+
+        </ion-card-content>
+      </ion-card>
+
+    </ion-col>
+
+    <ion-col size="12">
+      <ion-list>
+        <ion-item button *ngFor="let task of board?.tasks" (click)="createTask(task._id)">
+          <ion-label>
+            {{ task.name }} - {{ task.color }}
+            <ion-text color="light">
+              <p>Due Date: {{ task.due_date | date:'shortDate' }}</p>
+            </ion-text>
+          </ion-label>
+          <ion-icon name="alert" slot="end" *ngIf="task.priority == 'HIGH'" color="light"></ion-icon>
+          <ion-button slot="end" fill="outline" color="light" (click)="solveTask($event, task)">
+            <ion-icon name="checkmark" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

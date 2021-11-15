@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ task?._id ? task.name : 'New Task' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="save()" color="primary">
+        <ion-icon name="checkmark" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="discard()">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item>
+    <ion-label position="stacked">Name</ion-label>
+    <ion-input [(ngModel)]="task.name"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Description</ion-label>
+    <ion-textarea [(ngModel)]="task.desc" rows="5"></ion-textarea>
+  </ion-item>
+
+  <ion-segment [(ngModel)]="task.priority">
+    <ion-segment-button value="LOW">
+      Low Priority
+    </ion-segment-button>
+    <ion-segment-button value="MEDIUM">
+      Medium
+    </ion-segment-button>
+    <ion-segment-button value="HIGH">
+      High Priority
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-item>
+    <ion-label position="stacked">Due Date</ion-label>
+    <ion-datetime display-format="MM/DD/YYYY" [(ngModel)]="due"></ion-datetime>
+  </ion-item>
+  <ion-row>
+    <ion-col *ngFor="let color of colors" [style.background]="color" class="color-block" [class.selected-block]="task.color == color"
+      tappable (click)="selectColor(color)"></ion-col>
+  </ion-row>
+  <ion-item>
+    <ion-label position="stacked">Assigned to</ion-label>
+    <ion-select [(ngModel)]="task.assignee" [selectedText]="task?.assignee?.email">
+      <ion-select-option *ngFor="let member of members" [value]="member">
+        {{ member.first_name }} {{ member.last_name }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-input [(ngModel)]="comment" placeholder="I think that could work.."></ion-input>
+  </ion-item>
+  <ion-button expand="block" (click)="addComment()">
+    <ion-icon slot="start" name="chatbubbles"></ion-icon>Add Comment
+  </ion-button>
+
+  <ion-list *ngIf="comments.length > 0">
+    <ion-list-header>Comments</ion-list-header>
+    <ion-item *ngFor="let com of comments" text-wrap>
+      <ion-label>
+        <b>{{ com.user.first_name }} {{ com.user.last_name }}</b><br>
+        {{ com.text }}
+        <p>{{ com.created_at | date:'short' }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

@@ -1,0 +1,44 @@
+<ion-content padding>
+
+  <ion-back-button defaultHref="/login" color="light">
+  </ion-back-button>
+  <ion-grid class="full-height">
+  <ion-row text-center align-items-center [formGroup]="registerForm" class="full-height">
+      <ion-col size="12" size-sm="10" offset-sm="1" size-md="8" offset-md="2" size-lg="6" offset-lg="3" size-xl="4"
+      offset-xl="4" class="login-register-form">
+      <h3>Create Your Account</h3>
+
+      <ion-item>
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input required type="email" formControlName="email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">First Name</ion-label>
+        <ion-input required type="text" formControlName="first_name"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Last Name</ion-label>
+        <ion-input required type="text" formControlName="last_name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input required type="password" formControlName="password"></ion-input>
+      </ion-item>
+
+      <ion-row align-items-center>
+        <ion-col size="2">
+          <ion-checkbox formControlName="disclaimer"></ion-checkbox>
+        </ion-col>
+        <ion-col size="10">
+          I Agree to <a target="_blank" href="https://ionicacademy.com/disclaimer/">Terms of Service</a> and <a target="_blank"
+            href="https://ionicacademy.com/privacy/">Privacy Policy</a>.
+        </ion-col>
+      </ion-row>
+
+      <ion-button expand="full" (click)="register()" padding-top padding-bottom [disabled]="!registerForm.valid">
+        Create New Account</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+</ion-content>
